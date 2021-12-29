@@ -1,0 +1,35 @@
+---
+title: "ECSSC2021 Abstract Submissions"
+author: "Shih Ching Fu <shih.ching.fu@gmail.com>"
+date: "June 2021"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(forcats)
+library(janitor)
+library(googlesheets4)
+```
+
+```{r}
+data_raw <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1lNLKpaYgiuFWLXlDaHeDFwLy7J5iE-fA4mykVt-e9yE/edit#gid=0")
+```
+
+```{r}
+data_cleaned <- data_raw |>
+  clean_names() |>
+  rename(abstract_str = abstract_submission_structure,
+         scholarship_req = would_you_like_to_be_considered_for_an_ecssc_scholarship,
+         keywords = keyword_s_max_6_words,
+         categories = theme_category,
+         format_pref = presentation_format_preference,
+         submitted_elsewhere = has_this_abstract_been_submitted_previously_to_another_conference_or_event,
+         registered = have_you_already_registered_for_the_conference) |>
+  mutate(across(c(title, institution, position, abstract_str, scholarship_req, format_pref, submitted_elsewhere, registered), as_factor)) |>
+  
+
+data_cleaned
+```
+
